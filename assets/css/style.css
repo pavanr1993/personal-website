@@ -5,6 +5,7 @@ body {
     color: #000;   
     margin-top: 40px;
     line-height:0px;
+	
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -176,7 +177,12 @@ p {
 
 
 
-
+@media screen and (max-width: 480px){
+	
+.bio,.container h1{
+	line-height:30px;
+}	
+}
 
 
 
