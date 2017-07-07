@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<style type="text/css">
+		body,html{
+			width: 100%;
+		}
+		.container{
+			width: 100%;
+		}
+		input[type=text]{
+		    width: 80%;
+		    padding: 12px 20px 12px 40px;
+		}
+		ul {
+			list-style: none;
+		}
+		ul li {
+			position: relative;
+		}
+		.img{
+			float: left;
+			margin-right: 20px;
+		}
+		.user h2{
+			margin: 0px;
+			padding: 0px;
+			font-size: 16px;
+		}	
+
+		.close {
+		    position: absolute;
+		    right: 0;
+		    top: 0;
+		    padding: 12px 16px 12px 16px;
+		    font-size: 30px;
+		    cursor: pointer;
+		}	
+
+
+	</style>
+</head>
+
+<body>
+
+<div class="container" ng-controller="appCtrl">
+	<input type="text" ng-model="user" placeholder="Search..." />
+	<h1>User Details</h1>
+	<ul>
+		<li ng-repeat="user in users | filter : user | limitTo:6">
+			<div class="img"><img src="{{user.img}}"></div>
+			<div class="user">
+				<h2>{{user.name + ' '+ user.lName}}</h2>
+				<p>{{user.email}}</p>
+			</div>	
+			<span ng-click="delete($index)" class="close">&times;</span>
+		</li>
+	</ul>
+  
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script type="text/javascript">
+	var app = angular.module('app',[]);
+
+
+	app.controller('appCtrl',['$scope','$http',function($scope,$http){
+		$scope.users = $http.get('user.json').success(function(users){
+				console.log(users)
+				$scope.users = users.users;
+			}).error(function(err){
+				console.log(err);
+			});
+		//if there is no server to run then hard code this and add users.users in ng-repeat and user.users.splice in del func
+		/* {"users":[
+	{"name":"Manoj","lName":"Ojha","img":"http://placehold.it/50x50","email":"maa8@gmail.com"},
+	{"name":"Ajay","lName":"Ojha","img":"http://placehold.it/50x50","email":"maa6@gmail.com"},
+	{"name":"Ram","lName":"Sharma","img":"http://placehold.it/50x50","email":"maa5@gmail.com"},
+	{"name":"Rahul","lName":"Ojha","img":"http://placehold.it/50x50","email":"maa4@gmail.com"},
+	{"name":"Gopi","lName":"parihar","img":"http://placehold.it/50x50","email":"maa3@gmail.com"},
+	{"name":"shubham","lName":"jain","img":"http://placehold.it/50x50","email":"ma2a@gmail.com"},
+	{"name":"Manoj","lName":"Ojha","img":"http://placehold.it/50x50","email":"maa1@gmail.com"}
+]
+} */
+		
+		$scope.delete = function(index){
+			$scope.users.splice(index,1);
+			}
+	}]);
+	
+</script>
+</body>
+</html>
